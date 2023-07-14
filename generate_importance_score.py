@@ -21,7 +21,7 @@ parser.add_argument('--batch-size', type=int, default=256, metavar='N',
 parser.add_argument('--dataset', type=str, default='cifar10', choices=['cifar10', 'cifar100', 'tiny', 'svhn', 'cinic10'])
 
 ######################### Path Setting #########################
-parser.add_argument('--data-dir', type=str,
+parser.add_argument('--data-dir', type=str, default='../data/',
                     help='The dir path of the data.')
 parser.add_argument('--base-dir', type=str,
                     help='The base dir of this project.')

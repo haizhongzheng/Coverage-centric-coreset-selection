@@ -122,8 +122,9 @@ total_num = len(trainset)
 
 
 if args.coreset:
-    with open(args.data_score_path, 'rb') as f:
-        data_score = pickle.load(f)
+    if args.coreset_mode != 'random':
+        with open(args.data_score_path, 'rb') as f:
+            data_score = pickle.load(f)
 
     if args.coreset_mode == 'random':
         coreset_index = CoresetSelection.random_selection(total_num=len(trainset), num=args.coreset_ratio * len(trainset))
