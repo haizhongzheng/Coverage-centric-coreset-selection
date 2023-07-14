@@ -57,6 +57,5 @@ python train.py --dataset cifar10 --gpuid 0 --iterations 40000 --task-name el2n-
 ```
 
 # TODO
-[ ] Explain motivation for CCS design
-
-[ ] Release the imagenet training code.
+- [ ] Explain motivation for CCS design
+- [ ] Release the imagenet training code.
