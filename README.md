@@ -22,7 +22,7 @@ python train.py --dataset cifar10 --gpuid 0 --epochs 200 --lr 0.1 --network resn
 ## Train classifiers with a coreset
 
 ### Importance score calculation
-Expect random pruning, we need to first calcualte the different importance scores for coreset selection.
+Except random pruning, we need to first calcualte the different importance scores for coreset selection.
 
 ```
 python generate_importance_score.py --gpuid 0 --base-dir ./data-model/cifar10 --task-name all-data
