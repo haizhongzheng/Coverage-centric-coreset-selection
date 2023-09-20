@@ -56,6 +56,18 @@ python train.py --dataset cifar10 --gpuid 0 --iterations 40000 --task-name accum
 python train.py --dataset cifar10 --gpuid 0 --iterations 40000 --task-name el2n-0.1 --base-dir ./data-model/cifar10/el2n --coreset --coreset-mode coreset --data-score-path ./data-model/cifar10/all-data/data-score-all-data.pickle --coreset-key el2n --coreset-ratio 0.1 --data-score-descending 1
 ```
 
-# TODO
-- [ ] Explain motivation for CCS design
-- [ ] Release the imagenet training code.
+# ImageNet training code
+```
+#Train imagenet classifier and collect the training dynamics
+python train_imagenet.py --epochs 60 --lr 0.1 --scheduler cosine --task-name ICLR2023-ImageNet --base-dir /path/to/work-dir/imagenet/ --data-dir /dir/to/data/imagenet --network resnet34 --batch-size 256 --gpuid 0,1
+
+#Calculate score for each image
+python generate_importance_score_imagenet.py --data-dir /dir/to/data/imagenet --base-dir /path/to/work-dir/imagenet/ --task-name ICLR2023-ImageNet --data-score-path ./imagenet-data-score.pt
+
+#Train model with CCS coreset selection
+#90% pruning rate
+python train_imagenet.py --iterations 300000 --iterations-per-testing 5000 --lr 0.1 --scheduler cosine --task-name aum-s-0.1 --data-dir /dir/to/data/imagenet --base-dir /path/to/work-dir/imagenet/ccs --coreset --coreset-mode stratified --data-score-path imagenet-data-score.pt --coreset-key accumulated_margin --network resnet34 --batch-size 256 --coreset-ratio 0.1 --mis-ratio 0.3 --data-score-descending 1 --gpuid 0,1 --ignore-td
+
+#80% pruning rate
+python train_imagenet.py --iterations 300000 --iterations-per-testing 5000 --lr 0.1 --scheduler cosine --task-name aum-s-0.2 --data-dir /dir/to/data/imagenet --base-dir /path/to/work-dir/imagenet/ccs --coreset --coreset-mode stratified --data-score-path imagenet-data-score.pt --coreset-key accumulated_margin --network resnet34 --batch-size 256 --coreset-ratio 0.2 --mis-ratio 0.2 --data-score-descending 1 --gpuid 2,3 --ignore-td
+```

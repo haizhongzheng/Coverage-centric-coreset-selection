@@ -143,3 +143,38 @@ class CINIC10Dataset(object):
         path = os.path.join(path, 'test')
         testset = torchvision.datasets.ImageFolder(root=path, transform=transform_test)
         return testset
+
+class ImageNetDataset(object):
+    @staticmethod
+    def get_ImageNet_train(path, transform=None):
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
+        trainset = datasets.ImageFolder(
+            path,
+            transforms.Compose([
+                transforms.RandomResizedCrop(224),
+                transforms.RandomHorizontalFlip(),
+                # transforms.ColorJitter(
+                #     brightness=0.4,
+                #     contrast=0.4,
+                #     saturation=0.4),
+                transforms.ToTensor(),
+                normalize,
+            ]))
+
+
+        return trainset
+
+    @staticmethod
+    def get_ImageNet_test(path):
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                     std=[0.229, 0.224, 0.225])
+        testset = datasets.ImageFolder(
+            path,
+            transforms.Compose([
+                transforms.Resize(256),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                normalize,
+        ]))
+        return testset

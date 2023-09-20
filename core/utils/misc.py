@@ -28,3 +28,17 @@ def get_model_directory(base_dir, model_name):
 def l2_distance(tensor1, tensor2):
     dist = (tensor1 - tensor2).pow(2).sum().sqrt()
     return dist
+
+def accuracy(output, target, topk=1):
+    """Computes the precision@k for the specified values of k"""
+    maxk = topk
+    batch_size = target.size(0)
+
+    _, pred = output.topk(maxk, 1, True, True)
+    pred = pred.t()
+    correct = pred.eq(target.view(1, -1).expand_as(pred))
+
+    correct_k = correct.float().sum()
+    acc = correct_k * (100.0 / batch_size)
+
+    return acc, correct_k.item()

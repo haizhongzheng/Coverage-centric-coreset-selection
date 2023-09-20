@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 from datetime import datetime
+from ..utils import accuracy
 
 class Trainer(object):
     """
@@ -62,7 +63,7 @@ class Trainer(object):
             print(f'>> Epoch [{epoch}]: Training Accuracy: {correct/total * 100:.2f}')
             print(f'>> Epoch [{epoch}]: Time consumed: {(datetime.now() - start_time).total_seconds():.2f}')
 
-    def test(self, model, dataloader, criterion, device, log_interval=None,  printlog=False):
+    def test(self, model, dataloader, criterion, device, log_interval=None,  printlog=False, topk = 1):
         model.eval()
         test_loss = 0
         correct = 0
@@ -79,7 +80,9 @@ class Trainer(object):
                 test_loss += loss.item()
                 _, predicted = outputs.max(1)
                 total += targets.shape[0]
-                correct += predicted.eq(targets).sum().item()
+                batch_acc, batch_correct = accuracy(outputs, targets, topk=topk)
+                correct += batch_correct
+                # correct += predicted.eq(targets).sum().item()
 
                 # if printlog and log_interval and batch_idx % log_interval == 0:
                 #     print(batch_idx)
