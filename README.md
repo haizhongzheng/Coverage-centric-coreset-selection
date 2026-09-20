@@ -1,3 +1,5 @@
+
+
 # Coverage-centric Coreset Selection for High Pruning Rates
 
 Code implementation for ICLR 2023 paper: [Coverage-centric Coreset Selection for High Pruning Rates.](https://openreview.net/forum?id=QwKvL6wC8Yi)
@@ -22,7 +24,7 @@ python train.py --dataset cifar10 --gpuid 0 --epochs 200 --lr 0.1 --network resn
 ## Train classifiers with a coreset
 
 ### Importance score calculation
-Except random pruning, we need to first calcualte the different importance scores for coreset selection.
+Except random pruning, we need to first calculate the different importance scores for coreset selection.
 
 ```
 python generate_importance_score.py --gpuid 0 --base-dir ./data-model/cifar10 --task-name all-data
